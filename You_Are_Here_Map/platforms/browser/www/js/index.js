@@ -43,7 +43,7 @@ var app = {
         $("#map").hide();
 
         //add onclick event to button to show the map
-        document.getElementById("b1").addEventListener("click", ShowMap);        
+        document.getElementById("showMap").addEventListener("click", ShowMap);        
         function ShowMap() {
             $("#start-view").hide();
             $("#map").show();   
@@ -63,6 +63,7 @@ var app = {
         }).addTo(map);
                 
         var marker = L.marker([47.3769, 8.5417], {rotationAngle: 0});
+		var testmarker = L.marker([47.28, 8.6], {rotationAngle: 0});
                 
         var circle = L.circle([47.3769, 8.5417], {radius: 10});
         circle.addTo(map);
@@ -86,7 +87,11 @@ var app = {
                 popupAnchor: [-40,-70],
             });
             L.marker([lat, lon], {icon: myIcon}).addTo(map)
-                
+			var distance = curlatlng.distanceTo ([47.2564, 8.6042]);
+            if (distance < 1000) {
+                testmarker.addTo(map)
+					.bindPopup('Here is your next location!');
+            }    
             //set the map center and the marker to the current location, add a circle to represent the location accuracy
             map.panTo (curlatlng);            
             marker.setLatLng (curlatlng);

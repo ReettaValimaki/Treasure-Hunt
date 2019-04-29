@@ -22,54 +22,103 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" /> --> 
-    <!-- Good default declaration:
-    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-        * Enable inline JS: add 'unsafe-inline' to default-src
-        * Enable eval(): add 'unsafe-eval' to default-src
-    * Create your own at http://cspisawesome.com
-    -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<title>CrawlSprawl</title>
 
-    <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
-    
-    <!-- the following CSS codes set the map in a full screen view -->
-    <style>
-        body {
-            padding: 0;
-            margin: 0;
-        }
-        html, body, #map {
-            height: 100%;
-            width: 100%;
-        }
-    </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>  
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
      <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>  
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script> 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <title>You_Are_Here_Map</title>
-</head>
 
-<body>
-   <div id="start-view" style="display: none; text-align: center">
+</head>
+<body style="margin: 20px;">
+   
+   <div data-role="page" id="start-view" text-align: center>
         <h2>Welcome</h2>
-        <p>Thank you for using <b>YouAreHere Application</b>! </p>
-        <button id="b1" type="button" class="ui-button ui-widget ui-corner-all"><img src="img/person.png" width="48" height="48"></button>
+        <p>Please choose: </p>
+        <button type="button"><a href="#trailList"> Choose a trail </a></button>
+		<button type="button"><a href="#giveName"> Make a trail </a></button>
+		<button id="showMap" type="button" class="ui-button ui-widget ui-corner-all">Show map</button>
         <footer style="position: fixed; bottom: 0; background-color: navy; color: white; width: 100%"><p><b>YouAreHere</b> is developed at the University of Zurich by Reetta Välimäki</p></footer>
-    </div>    
-        
-    <div id="map" style="display: none"></div>
-    
+    </div>  
+    <div id="map" style="display: none"></div>  
+	<div data-role="page" id="trailList">
+		<h2>Pick a trail</h2>
+			<ul>
+				<div class="trail_list">
+	        	<a class="buttShowMap" href="#Test_trail"> <img src="img/trail.png", width="70%"> </a>
+	        	<h3>Test trail</h3></div>
+	        	<br>
+	        	<div class="trail_list">
+	        	<a class="buttShowMap" href="#Irchel">  <img src="img/irchel.png", width="70%"> </a>
+	        	<h3>Trail around Irchel</h3>
+	        	</div>
+	        	<br>
+	        	<div class="trail_list">
+	        	<a class="buttShowMap" href="#Tourist"> <img src="img/tourist.png", width="70%"> </a>
+	        	<h3>Tourist trail in Zurich</h3>
+	        	</div>
+	        	<br>
+	        	<div class="trail_list">
+	        	<a class="buttShowMap" href="#Pub_crawl">  <img src="img/pub.png", width="70%"> </a>
+	        	<h3>Pub crawl in Zurich</h3>
+	        	</div>
+	        </ul>
+	    <footer>
+	    	<button><a href="#start-view"> Back </a></button>
+	    </footer>
+	</div>
+    <div data-role="page" id="giveName">
+			<form>
+			  <h3>Give a name for your trail: </h3>
+			  <br>
+			  <input type="text" name="trailname">
+			  <br><br>
+			  <button id="jeeMap"> <a class="buttShowMap" href="#trailMaking">Submit</a></button>
+			</form> 
+			<button id = "showMap" type="button" class="ui-button ui-widget ui-corner-all"> see the map </button>
+		<footer>
+	    	<button><a href="#start-view"> Back </a></button>
+	    </footer>
+	</div>
+	<div data-role="page" id="trailMaking">
+		<h3>Press the location where you want the first location for your trail </h3>
+		<footer>
+	    	<button><a href="#start-view"> Back </a></button>
+	    </footer>
+	</div>
+
+<style type="text/css">
+	h2 {
+		text-align: center;
+	}
+	.trail_list{
+		position: relative;
+    	text-align: center;
+	}
+	.trail_list a {
+		color: red;
+		text-align: center;
+		position: relative;
+		top: 0px;
+		left: 20px;
+		text-decoration: none;
+		font:30px;
+	}
+	.trail_list h3 {
+		position: absolute;
+		top: 10px;
+		left: 50%;
+		text-align: center;
+		color: white;
+		z-index: 1;
+	}
+</style>
+   
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/leaflet.rotatedMarker.js"></script>
     <script type="text/javascript" src="js/index.js"></script>

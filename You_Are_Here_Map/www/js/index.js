@@ -36,7 +36,7 @@ var app = {
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
-    receivedEvent: function(class) {
+    receivedEvent: function(id) {
         var watchID = null;
        //sets the starting view to show when open the app
         $("#start-view").show();
@@ -45,6 +45,7 @@ var app = {
         //add onclick event to button to show the map
         document.getElementById("showMap").addEventListener("click", ShowMap);        
         function ShowMap() {
+            $("#start-view").hide();
             $("#map").show();   
             map._onResize();
 
