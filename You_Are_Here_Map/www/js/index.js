@@ -43,16 +43,7 @@ var app = {
         $("#map").hide();
 
         //add onclick event to button to show the map
-        document.getElementById("showMap").addEventListener("click", ShowMap);        
-        function ShowMap() {
-            $("#start-view").hide();
-            $("#map").show();   
-            map._onResize();
 
-            //start watching for changes to the device's location (if not started yet)
-            if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
-        }
         document.getElementById("b1").addEventListener("click", ShowMapView);        
         function ShowMapView() {
             $("#start-view").hide();
