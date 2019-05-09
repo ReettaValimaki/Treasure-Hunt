@@ -55,6 +55,7 @@ var app = {
             if (watchID == null)
                 watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
+
         //set the initial map center to Zurich
         var map = L.map('map').setView([47.3769, 8.5417], 14);
         
@@ -64,11 +65,18 @@ var app = {
         }).addTo(map);
                 
         var marker = L.marker([47.3769, 8.5417], {rotationAngle: 0});
-        var testmarker = L.marker([47.28, 8.6], {rotationAngle: 0});
                 
         var circle = L.circle([47.3769, 8.5417], {radius: 10});
         circle.addTo(map);
-        
+		var trailmarkers= [
+		[47.256335, 8.604447],
+		[47.256335, 8.605482],
+		[47.256335, 8.605800]
+		];
+		
+		var startmarker = L.marker(trailmarkers[0]);
+		startmarker.addTo(map)
+			.bindPopup('Your trail starts here!');
         
         
         // onSuccess Callback
@@ -87,11 +95,29 @@ var app = {
                 iconAnchor: [45, 65],
                 popupAnchor: [-40,-70],
             });
+            L.marker([lat, lon], {icon: myIcon}).addTo(map);
+            
+			
+			for (var i = 0; i<trailmarkers.length; i++) {
+			var tlon = trailmarkers[i][1];
+			var tlat = trailmarkers[i][0];
+			var nlon = trailmarkers[i+1][1];
+			var nlat = trailmarkers [i+1][0];
+			var markerLocation = new L.LatLng(tlat, tlon);
+			var nextMarkerLocation = new L.LatLng(nlat, nlon);
+			var nextmarker = new L.Marker(nextMarkerLocation);
+			var distance = curlatlng.distanceTo(markerLocation);
+            if (distance < 10000) {
+                nextmarker.addTo(map)
+					.bindPopup('Here is your next location!' + nextMarkerLocation);}
+            
+
             L.marker([lat, lon], {icon: myIcon}).addTo(map)
             var distance = curlatlng.distanceTo ([47.2564, 8.6042]);
             if (distance < 1000) {
                 testmarker.addTo(map)
                     .bindPopup('Here is your next location!');
+
             }    
             //set the map center and the marker to the current location, add a circle to represent the location accuracy
             map.panTo (curlatlng);            
