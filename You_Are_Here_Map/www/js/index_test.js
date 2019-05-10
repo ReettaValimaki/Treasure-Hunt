@@ -76,43 +76,29 @@ var app = {
 			
 		
         document.getElementById("b1").addEventListener("click", ShowMapView);
-		document.getElementById("Forest_trail").addEventListener("click", ForestTrail); 
-		function ForestTrail() {
-            $("#start-view").hide();
-            $("#map").show();
-			$("#trailList").hide();	
-            $("#last-view").hide();
-            map._onResize();
-			trailmarkers = Forest_trail;
-			var startmarker = L.marker(trailmarkers[0]);
-			startmarker.addTo(map)
-			.bindPopup('Your trail starts here!');
-            if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
-        }
-		document.getElementById("Irchel").addEventListener("click", Ircheltrail); 
-		function Ircheltrail() {
-            $("#start-view").hide();
-            $("#map").show();   
-            $("#trailList").hide();
-			$("#last-view").hide();
-            map._onResize();
-			var trailmarkers = Irchel;		
-            //start watching for changes to the device's location (if not started yet)
-            if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
-        }
-		document.getElementById("Tourist").addEventListener("click", ShowMapView); 	
-        function ShowMapView() {
+		document.getElementById("Forest_trail").addEventListener("click", ShowMapView); 		    
+		document.getElementById("Irchel").addEventListener("click", ShowMapView); 		
+		document.getElementById("Tourist").addEventListener("click", ShowMapView);
+		document.getElementById("Pub_crawl").addEventListener("click", ShowMapView); 	
+		function ShowMapView() {
             $("#start-view").hide();
             $("#map").show(); 
 			$("#trailList").hide();	
             $("#last-view").hide();
             map._onResize();
+			if(this.id = b1){
 			trailmarkers= [
 			[47.256335, 8.604447],
 			[47.256335, 8.605482],
-			[47.256335, 8.605800]];
+			[47.256335, 8.605800]];}
+			if(this.id = "Irchel"){
+			trailmarkers = Irchel;}
+			if(this.id = Forest_trail){
+			trailmarkers = Forest_trail;}
+			if(this.id = Tourist){
+			trailmarkers = Tourist;}
+			if(this.id = Pub_crawl){
+			trailmarkers = Pub_crawl;}
 			var startmarker = L.marker(trailmarkers[0]);
 			startmarker.addTo(map)
 			.bindPopup('Your trail starts here!');	
@@ -138,10 +124,9 @@ var app = {
 		//[47.256335, 8.605800]
 		//];
 		
-       
-		var startmarker = L.marker(trailmarkers[0]);
-		startmarker.addTo(map)
-			.bindPopup('Your trail starts here!');
+       var startmarker = L.marker(trailmarkers[0]);
+			startmarker.addTo(map)
+			.bindPopup('Your trail starts here!');	
         
         
         // onSuccess Callback

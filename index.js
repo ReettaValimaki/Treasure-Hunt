@@ -98,10 +98,10 @@ var app = {
 			$("#last-view").hide();
             map._onResize();
 			trailmarkers = [[47.396519, 8.550110],
-			[47.396577, 8.549080],
-			[47.397507, 8.548179],
-			[47.397274, 8.550239]
-				];
+        [47.396577, 8.549080],
+        [47.397507, 8.548179],
+        [47.397274, 8.550239]
+        ];
 			startmarker = L.marker(trailmarkers[0]);
 			startmarker.addTo(map)
 			.bindPopup('Your trail starts here!');			
@@ -122,20 +122,7 @@ var app = {
             if (watchID == null)
                 watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
-		document.getElementById("Pub_crawl").addEventListener("click", PubView); 	
-		function PubView() {
-            $("#start-view").hide();
-            $("#map").show(); 
-			$("#trailList").hide();	
-            $("#last-view").hide();
-            map._onResize();
-			trailmarkers= Pub_crawl;
-			var startmarker = L.marker(trailmarkers[0]);
-			startmarker.addTo(map)
-			.bindPopup('Your trail starts here!');	
-            if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
-        }
+
         //set the initial map center to Zurich
         var map = L.map('map').setView([47.3769, 8.5417], 14);
         
