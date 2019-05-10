@@ -43,33 +43,34 @@ var app = {
         $("#map").hide();
 
         //add onclick event to button to show the map
-		var Forest_trail = [
+		Forest_trail = [
         [47.359932, 8.594484],
         [47.366705, 8.589935],
         [47.369728, 8.588691],
         [47.367868, 8.600793]
         ]
 
-        var Irchel = [
+        Irchel = [
         [47.396519, 8.550110],
         [47.396577, 8.549080],
         [47.397507, 8.548179],
         [47.397274, 8.550239]
         ]
 
-        var Tourist = [
+        Tourist = [
         [47.377720, 8.540604],
         [47.366167, 8.541312],
         [47.362926, 8.536463],
         [47.370084, 8.544306]
         ]
 
-        var Pub_crawl = [
+        Pub_crawl = [
         [47.374117, 8.544129],
         [47.376115, 8.538136],
         [47.376845, 8.529092],
         [47.377978, 8.527826]
         ];
+		var trailmarkers;
 		
 		
 			
@@ -82,8 +83,10 @@ var app = {
 			$("#trailList").hide();	
             $("#last-view").hide();
             map._onResize();
-			var trailmarkers = Forest_trail;
-		//start watching for changes to the device's location (if not started yet)
+			trailmarkers = Forest_trail;
+			var startmarker = L.marker(trailmarkers[0]);
+			startmarker.addTo(map)
+			.bindPopup('Your trail starts here!');
             if (watchID == null)
                 watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
@@ -106,10 +109,13 @@ var app = {
 			$("#trailList").hide();	
             $("#last-view").hide();
             map._onResize();
-			var trailmarkers= [
+			trailmarkers= [
 			[47.256335, 8.604447],
 			[47.256335, 8.605482],
-			[47.256335, 8.605800]];                     
+			[47.256335, 8.605800]];
+			var startmarker = L.marker(trailmarkers[0]);
+			startmarker.addTo(map)
+			.bindPopup('Your trail starts here!');	
             if (watchID == null)
                 watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
@@ -132,34 +138,7 @@ var app = {
 		//[47.256335, 8.605800]
 		//];
 		
-        var Forest_trail = [
-        [47.359932, 8.594484],
-        [47.366705, 8.589935],
-        [47.369728, 8.588691],
-        [47.367868, 8.600793]
-        ]
-
-        var Irchel = [
-        [47.396519, 8.550110],
-        [47.396577, 8.549080],
-        [47.397507, 8.548179],
-        [47.397274, 8.550239]
-        ]
-
-        var Tourist = [
-        [47.377720, 8.540604],
-        [47.366167, 8.541312],
-        [47.362926, 8.536463],
-        [47.370084, 8.544306]
-        ]
-
-        var Pub_crawl = [
-        [47.374117, 8.544129],
-        [47.376115, 8.538136],
-        [47.376845, 8.529092],
-        [47.377978, 8.527826]
-        ]
-
+       
 		var startmarker = L.marker(trailmarkers[0]);
 		startmarker.addTo(map)
 			.bindPopup('Your trail starts here!');
@@ -194,7 +173,7 @@ var app = {
 			var nextMarkerLocation = new L.LatLng(nlat, nlon);
 			var nextmarker = new L.Marker(nextMarkerLocation);
 			var distance = curlatlng.distanceTo(markerLocation);
-            if (distance < 10000) {
+            if (distance < 1000000) {
                 nextmarker.addTo(map)
 					.bindPopup('Here is your next location!' + nextMarkerLocation);}
             
