@@ -43,15 +43,73 @@ var app = {
         $("#map").hide();
 
         //add onclick event to button to show the map
+		var Forest_trail = [
+        [47.359932, 8.594484],
+        [47.366705, 8.589935],
+        [47.369728, 8.588691],
+        [47.367868, 8.600793]
+        ]
 
-        document.getElementById("b1").addEventListener("click", ShowMapView);        
-        function ShowMapView() {
+        var Irchel = [
+        [47.396519, 8.550110],
+        [47.396577, 8.549080],
+        [47.397507, 8.548179],
+        [47.397274, 8.550239]
+        ]
+
+        var Tourist = [
+        [47.377720, 8.540604],
+        [47.366167, 8.541312],
+        [47.362926, 8.536463],
+        [47.370084, 8.544306]
+        ]
+
+        var Pub_crawl = [
+        [47.374117, 8.544129],
+        [47.376115, 8.538136],
+        [47.376845, 8.529092],
+        [47.377978, 8.527826]
+        ];
+		
+		
+			
+		
+        document.getElementById("b1").addEventListener("click", ShowMapView);
+		document.getElementById("Forest_trail").addEventListener("click", ForestTrail); 
+		function ForestTrail() {
             $("#start-view").hide();
-            $("#map").show();   
+            $("#map").show();
+			$("#trailList").hide();	
             $("#last-view").hide();
             map._onResize();
-            
+			var trailmarkers = Forest_trail;
+		//start watching for changes to the device's location (if not started yet)
+            if (watchID == null)
+                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+        }
+		document.getElementById("Irchel").addEventListener("click", Ircheltrail); 
+		function Ircheltrail() {
+            $("#start-view").hide();
+            $("#map").show();   
+            $("#trailList").hide();
+			$("#last-view").hide();
+            map._onResize();
+			var trailmarkers = Irchel;		
             //start watching for changes to the device's location (if not started yet)
+            if (watchID == null)
+                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+        }
+		document.getElementById("Tourist").addEventListener("click", ShowMapView); 	
+        function ShowMapView() {
+            $("#start-view").hide();
+            $("#map").show(); 
+			$("#trailList").hide();	
+            $("#last-view").hide();
+            map._onResize();
+			var trailmarkers= [
+			[47.256335, 8.604447],
+			[47.256335, 8.605482],
+			[47.256335, 8.605800]];                     
             if (watchID == null)
                 watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
@@ -68,11 +126,11 @@ var app = {
                 
         var circle = L.circle([47.3769, 8.5417], {radius: 10});
         circle.addTo(map);
-		var trailmarkers= [
-		[47.256335, 8.604447],
-		[47.256335, 8.605482],
-		[47.256335, 8.605800]
-		];
+		//var trailmarkers= [
+		//[47.256335, 8.604447],
+		//[47.256335, 8.605482],
+		//[47.256335, 8.605800]
+		//];
 		
         var Forest_trail = [
         [47.359932, 8.594484],
@@ -123,7 +181,8 @@ var app = {
                 iconAnchor: [45, 65],
                 popupAnchor: [-40,-70],
             });
-            L.marker([lat, lon], {icon: myIcon}).addTo(map);
+            L.marker([lat, lon], {icon: myIcon}).addTo(map)
+				.bindPopup(trailmarkers[0]);
             
 			
 			for (var i = 0; i<trailmarkers.length; i++) {
