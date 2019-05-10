@@ -112,12 +112,8 @@ var app = {
 					.bindPopup('Here is your next location!' + nextMarkerLocation);}
             
 
-            L.marker([lat, lon], {icon: myIcon}).addTo(map)
-            var distance = curlatlng.distanceTo ([47.2564, 8.6042]);
-            if (distance < 1000) {
-                testmarker.addTo(map)
-                    .bindPopup('Here is your next location!');
-
+           
+          
             }    
             //set the map center and the marker to the current location, add a circle to represent the location accuracy
             map.panTo (curlatlng);            
