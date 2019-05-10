@@ -51,22 +51,23 @@
 		<h2>Pick a trail</h2>
 			<ul>
 				<div class="trail_list">
-	        	<a class="buttShowMap" href="#Test_trail"> <img src="img/trail.png", width="70%"> </a>
-	        	<h3>Test trail</h3></div>
-	        	<br>
-	        	<div class="trail_list">
-	        	<a class="buttShowMap" href="#Irchel">  <img src="img/irchel.png", width="70%"> </a>
-	        	<h3>Trail around Irchel</h3>
+		        	<button id="Forest_trail"> <img src="img/trail.png", width="100%"> </button>
+		        	<h3>Test trail</h3>
 	        	</div>
 	        	<br>
 	        	<div class="trail_list">
-	        	<a class="buttShowMap" href="#Tourist"> <img src="img/tourist.png", width="70%"> </a>
-	        	<h3>Tourist trail in Zurich</h3>
+		        	<button id="Irchel"> <img src="img/irchel.png"> </button>
+		        	<h3>Trail around Irchel</h3>
 	        	</div>
 	        	<br>
 	        	<div class="trail_list">
-	        	<a class="buttShowMap" href="#Pub_crawl">  <img src="img/pub.png", width="70%"> </a>
-	        	<h3>Pub crawl in Zurich</h3>
+		        	<button id="Tourist"> <img src="img/tourist.png"> </button>
+		        	<h3>Tourist trail in Zurich</h3>
+	        	</div>
+	        	<br>
+	        	<div class="trail_list">
+		        	<button id="Pub_crawl">  <img src="img/pub.png"> </a>
+		        	<h3>Pub crawl in Zurich</h3>
 	        	</div>
 	        </ul>
 	    <footer>
@@ -101,14 +102,12 @@
 		position: relative;
     	text-align: center;
 	}
-	.trail_list a {
-		color: red;
-		text-align: center;
-		position: relative;
-		top: 0px;
-		left: 20px;
-		text-decoration: none;
-		font:30px;
+	.trail_list button {
+		width: 70%;
+		margin: auto;
+	}
+	button img{
+		width: 100%
 	}
 	.trail_list h3 {
 		position: absolute;
@@ -118,6 +117,7 @@
 		color: white;
 		z-index: 1;
 	}
+
 </style>
    
     <script type="text/javascript" src="cordova.js"></script>
