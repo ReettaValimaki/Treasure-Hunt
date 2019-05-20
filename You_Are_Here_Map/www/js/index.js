@@ -72,9 +72,12 @@ var app = {
         ];
 		var trailmarkers;
 		
+		var buttonshow = 0;
 		
-			
-		
+		function showMarker () {
+		buttonshow = 1;		
+		}
+		//document.getElementById("Test").addEventListener("click",showMarker);	
         document.getElementById("b1").addEventListener("click", ShowMapView);
 		document.getElementById("Forest_trail").addEventListener("click", ForestTrail); 
 		function ForestTrail() {
@@ -86,7 +89,8 @@ var app = {
 			trailmarkers = Forest_trail;
 			startmarker = L.marker(trailmarkers[0]);
 			startmarker.addTo(map)
-			.bindPopup('Your trail starts here!');
+			.bindPopup('<button id="Test"> "Click here for your next location" </button>');
+			//document.getElementById("Test").addEventListener("click", buttonShow);
             if (watchID == null)
                 watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
@@ -104,7 +108,7 @@ var app = {
 				];
 			startmarker = L.marker(trailmarkers[0]);
 			startmarker.addTo(map)
-			.bindPopup('Your trail starts here!');			
+			.bindPopup('<button id="Test"> "Click here for your next location" </button>')	
             if (watchID == null)
                 watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
@@ -118,7 +122,7 @@ var app = {
 			trailmarkers= Tourist;
 			var startmarker = L.marker(trailmarkers[0]);
 			startmarker.addTo(map)
-			.bindPopup('Your trail starts here!');	
+			.bindPopup('<button id="Test"> "Click here for your next location" </button>');	
             if (watchID == null)
                 watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
@@ -132,7 +136,7 @@ var app = {
 			trailmarkers= Pub_crawl;
 			var startmarker = L.marker(trailmarkers[0]);
 			startmarker.addTo(map)
-			.bindPopup('Your trail starts here!');	
+			.bindPopup('<button id="Test"> "Click here for your next location" </button>');	
             if (watchID == null)
                 watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
@@ -155,9 +159,9 @@ var app = {
 		//];
 		
        
-		var startmarker = L.marker(trailmarkers[0]);
-		startmarker.addTo(map)
-			.bindPopup('Your trail starts here!');
+		//var startmarker = L.marker(trailmarkers[0]);
+		//startmarker.addTo(map)
+			//.bindPopup('<button id="Test"> "Click here for your next location" </button>');
         
         
         // onSuccess Callback
@@ -168,7 +172,7 @@ var app = {
             var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
             var curlatlng = L.latLng(lat, lon);
-
+			//document.getElementById("Test").addEventListener("click",showMarker);	
             //vasiable for the icon
             var myIcon = L.icon({
                 iconUrl: 'img/person.png',
@@ -189,10 +193,11 @@ var app = {
 			var nextMarkerLocation = new L.LatLng(nlat, nlon);
 			var nextmarker = new L.Marker(nextMarkerLocation);
 			var distance = curlatlng.distanceTo(markerLocation);
-            if (distance < 1000000) {
+            if (distance < 10000000) {
                 nextmarker.addTo(map)
-					.bindPopup('Here is your next location!' + nextMarkerLocation);}
-            
+					.bindPopup('<button id="Test"> "Click here for your next location" </button>' + buttonshow);}
+            //document.getElementById("Test").addEventListener("click", testShow);
+			//function testShow(){nextmarker.addTo(map)};
 
            
           
