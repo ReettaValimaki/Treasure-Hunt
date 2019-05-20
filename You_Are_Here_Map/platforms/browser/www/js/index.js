@@ -205,10 +205,10 @@ var app = {
 			function buttonShow () {
 			buttonshow = 1;	
 			//function testShow(){nextmarker.addTo(map)};
-				.bindPopup('<button id="Test"> "Click here for your next location" </button>' + buttonshow);}
+				//.bindPopup('<button id="Test"> "Click here for your next location" </button>' + buttonshow);}
 
-            document.getElementById("Test").addEventListener("click", buttonShow);
-			function testShow(){nextmarker.addTo(map)};
+            //document.getElementById("Test").addEventListener("click", buttonShow);
+			//function testShow(){nextmarker.addTo(map)};
 
 
             //document.getElementById("Test").addEventListener("click", testShow);
