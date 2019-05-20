@@ -196,8 +196,13 @@ var app = {
             if (distance < 10000000) {
                 nextmarker.addTo(map)
 					.bindPopup('<button id="Test"> "Click here for your next location" </button>' + buttonshow);}
+
             document.getElementById("Test").addEventListener("click", buttonShow);
 			function testShow(){nextmarker.addTo(map)};
+
+            //document.getElementById("Test").addEventListener("click", testShow);
+			//function testShow(){nextmarker.addTo(map)};
+
 
            
           
