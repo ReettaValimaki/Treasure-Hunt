@@ -44,17 +44,17 @@ var app = {
 
         //add onclick event to button to show the map
 		Forest_trail = [
-        [47.359932, 8.594484],
-        [47.366705, 8.589935],
-        [47.369728, 8.588691],
-        [47.367868, 8.600793]
+        [47.359932, 8.594484, "What is 1+1", "2"],
+        [47.366705, 8.589935, "What is 1+2", "3"],
+        [47.369728, 8.588691, "What is 1+3", "4"],
+        [47.367868, 8.600793, "What is 1+4", "5"]
         ];
 
         Irchel = [
-        [47.396519, 8.550110],
-        [47.396577, 8.549080],
-        [47.397507, 8.548179],
-        [47.397274, 8.550239]
+        [47.396519, 8.550110,"What is 1+1", "2"],
+        [47.396577, 8.549080, "What is 1+2", "3"],
+        [47.397507, 8.548179, "What is 1+3", "4"],
+        [47.397274, 8.550239, "What is 1+4", "5"]
         ];
 
         Tourist = [
@@ -75,8 +75,15 @@ var app = {
 		var buttonshow = 0;
 		
 		function buttonShow () {
-		buttonshow = 1;		
-		}
+		buttonshow = 1;	
+        }
+
+        //when popup submit is clicked	
+        var w = 0;
+        submitFunc =function submitFunc() {
+        w++;
+        }
+		
 		//document.getElementById("Test").addEventListener("click",showMarker);	
         document.getElementById("b1").addEventListener("click", ShowMapView);
 		document.getElementById("Forest_trail").addEventListener("click", ForestTrail); 
@@ -108,10 +115,17 @@ var app = {
 				];
 			startmarker = L.marker(trailmarkers[0]);
 			startmarker.addTo(map)
-			.bindPopup('<button id="Test"> "Click here for your next location" </button>')	
+			.bindPopup('<button id="Test"> "Click here for your next location" </button><br>'
+                + Irchel[w][2]
+                +'<br><input type="text" name="answer">'
+                +'<br><button onclick="submitFunc()">Submit</button>'
+                +'<br> The correct answer is: '
+                +[w][3]
+                )	
             if (watchID == null)
                 watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
+
 		document.getElementById("Tourist").addEventListener("click", ShowMapView); 	
         function ShowMapView() {
             $("#start-view").hide();
@@ -183,10 +197,12 @@ var app = {
             L.marker([lat, lon], {icon: myIcon}).addTo(map)
 				.bindPopup(trailmarkers[0]);
             
-			
+			//function for popup popping up with buttons
 			for (var i = 0; i<trailmarkers.length; i++) {
+                //current marker
 			var tlon = trailmarkers[i][1];
 			var tlat = trailmarkers[i][0];
+                //next marker
 			var nlon = trailmarkers[i+1][1];
 			var nlat = trailmarkers [i+1][0];
 			var markerLocation = new L.LatLng(tlat, tlon);
@@ -215,5 +231,33 @@ var app = {
         }
         //watchPosition will run constantly to get the position if the device retrieves a new location 
         var watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });   
+            //Add the "Back" button in the map view
+        var backControl =  L.Control.extend({
+            options: {
+                position: 'bottomleft'
+            },
+
+            onAdd: function (map) {
+                var container = L.DomUtil.create('button', 'ui-button ui-widget ui-corner-all');
+                container.style.backgroundColor = 'white';     
+                container.style.width = '60px';
+                container.style.height = '30px';
+                container.textContent = "Back";
+                
+                container.onclick = function(){
+                  $("#start-view").show();
+                  $("#map").hide();     
+                  $("#trailList").hide();   
+                  $("#last-view").hide();             
+                  //stop watching for changes to the device's location
+                  navigator.geolocation.clearWatch(watchID);
+                  watchID = null;
+                };
+
+                return container;
+            }
+        });
+        map.addControl(new backControl());
     }
+
 };
