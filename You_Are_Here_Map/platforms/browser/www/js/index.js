@@ -84,6 +84,9 @@ var app = {
         w++;
         }
 		
+		//function buttonShow () {
+		//buttonshow = 1;		
+		//}
 		//document.getElementById("Test").addEventListener("click",showMarker);	
         document.getElementById("b1").addEventListener("click", ShowMapView);
 		document.getElementById("Forest_trail").addEventListener("click", ForestTrail); 
@@ -211,6 +214,21 @@ var app = {
 			var distance = curlatlng.distanceTo(markerLocation);
             if (distance < 10000000) {
                 nextmarker.addTo(map)
+
+					.bindPopup('<button id="fff"> "Click here for your next location" </button>' + buttonshow);}
+            //document.getElementById("fff").addEventListener("click", buttonShow);
+			//function buttonShow () {
+			//buttonshow = 1;		
+			}
+			document.getElementById("fff").addEventListener("click", buttonShow);
+			function buttonShow () {
+			buttonshow = 1;	
+			//function testShow(){nextmarker.addTo(map)};
+				//.bindPopup('<button id="Test"> "Click here for your next location" </button>' + buttonshow);}
+
+            //document.getElementById("Test").addEventListener("click", buttonShow);
+			//function testShow(){nextmarker.addTo(map)};
+
 					.bindPopup('<button id="Test"> "Click here for your next location" </button>' + buttonshow);}
             document.getElementById("Test").addEventListener("click", buttonShow);
 			function testShow(){nextmarker.addTo(map)};
