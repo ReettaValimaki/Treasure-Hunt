@@ -79,7 +79,7 @@ var app = {
         }
 
         //when popup submit is clicked	
-        var w = 0;
+        var w;
         submitFunc =function submitFunc() {
         w++;
         }
@@ -88,6 +88,7 @@ var app = {
 		//buttonshow = 1;		
 		//}
 		//document.getElementById("Test").addEventListener("click",showMarker);	
+		//Each button has a function to add the corresponding markers to the map
         document.getElementById("b1").addEventListener("click", ShowMapView);
 		document.getElementById("Forest_trail").addEventListener("click", ForestTrail); 
             function ForestTrail() {
@@ -97,13 +98,26 @@ var app = {
             $("#last-view").hide();
             map._onResize();
 			trailmarkers= Forest;
+			w = 0
 			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
-			.bindPopup('<button id="Test"> "Click here for your next location" </button>');	
+			.bindPopup(markercontent[0])
+				
             //if (watchID == null)
              watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
-        
+		// Method 1 to add marker on Click
+        var markercontent = $('<button class= "Test2" >"Click here for your next Location" </button>');
+			markercontent.on('click', function(){
+			L.marker([47.377978, 8.527826]).addTo(map)}
+			);
+		// Method 2 to add marker on click	
+		$('#map').on('click', '.Test2', function() {
+		w++	
+		L.marker([47.376845, 8.529092]).addTo(map)
+		.bindPopup('Hello'+w);
+		;
+		});	
 		document.getElementById("Irchel").addEventListener("click", Ircheltrail); 
 		function Ircheltrail() {
             $("#start-view").hide();
@@ -209,14 +223,14 @@ var app = {
 			var distance = curlatlng.distanceTo(markerLocation);
             if (distance < 10000000) {
                 nextmarker.addTo(map)
-					.bindPopup('<button id="fff"> "Click here for your next location" </button>' + buttonshow);}
+					.bindPopup('<button id="fff"> "Click here for your next location" </button>' + w);}
             //document.getElementById("fff").addEventListener("click", buttonShow);
 			//function buttonShow () {
 			//buttonshow = 1;		
 			}
 			document.getElementById("fff").addEventListener("click", buttonShow);
 			function buttonShow () {
-			buttonshow = 1;	
+			L.marker([47.376845, 8.529092]).addTo(map);	
 			//function testShow(){nextmarker.addTo(map)};
 
            
