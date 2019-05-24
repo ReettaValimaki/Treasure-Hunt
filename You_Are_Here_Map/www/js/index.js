@@ -43,7 +43,7 @@ var app = {
         $("#map").hide();
 
         //add onclick event to button to show the map
-		Forest_trail = [
+		Forest = [
         [47.359932, 8.594484, "What is 1+1", "2"],
         [47.366705, 8.589935, "What is 1+2", "3"],
         [47.369728, 8.588691, "What is 1+3", "4"],
@@ -90,20 +90,20 @@ var app = {
 		//document.getElementById("Test").addEventListener("click",showMarker);	
         document.getElementById("b1").addEventListener("click", ShowMapView);
 		document.getElementById("Forest_trail").addEventListener("click", ForestTrail); 
-		function ForestTrail() {
+            function ForestTrail() {
             $("#start-view").hide();
-            $("#map").show();
+            $("#map").show(); 
 			$("#trailList").hide();	
             $("#last-view").hide();
             map._onResize();
-			trailmarkers = Forest_trail;
-			startmarker = L.marker(trailmarkers[0]);
+			trailmarkers= Forest;
+			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
-			.bindPopup('<button id="Test"> "Click here for your next location" </button>');
-			//document.getElementById("Test").addEventListener("click", buttonShow);
-            if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+			.bindPopup('<button id="Test"> "Click here for your next location" </button>');	
+            //if (watchID == null)
+             watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
+        
 		document.getElementById("Irchel").addEventListener("click", Ircheltrail); 
 		function Ircheltrail() {
             $("#start-view").hide();
@@ -111,22 +111,18 @@ var app = {
             $("#trailList").hide();
 			$("#last-view").hide();
             map._onResize();
-			trailmarkers = [[47.396519, 8.550110],
-			[47.396577, 8.549080],
-			[47.397507, 8.548179],
-			[47.397274, 8.550239]
-				];
-			startmarker = L.marker(trailmarkers[0]);
+			trailmarkers = Irchel;
+			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
 			.bindPopup('<button id="Test"> "Click here for your next location" </button><br>'
-                + Irchel[w][2]
+                +trailmarkers[w][2]
                 +'<br><input type="text" name="answer">'
                 +'<br><button onclick="submitFunc()">Submit</button>'
                 +'<br> The correct answer is: '
-                +[w][3]
+                +trailmarkers[w][3]
                 )	
-            if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+            //if (watchID == null)
+            watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
 
 		document.getElementById("Tourist").addEventListener("click", ShowMapView); 	
@@ -137,11 +133,10 @@ var app = {
             $("#last-view").hide();
             map._onResize();
 			trailmarkers= Tourist;
-			var startmarker = L.marker(trailmarkers[0]);
+			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
 			.bindPopup('<button id="Test"> "Click here for your next location" </button>');	
-            if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+            watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
 		document.getElementById("Pub_crawl").addEventListener("click", PubView); 	
 		function PubView() {
@@ -151,11 +146,11 @@ var app = {
             $("#last-view").hide();
             map._onResize();
 			trailmarkers= Pub_crawl;
-			var startmarker = L.marker(trailmarkers[0]);
+			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
 			.bindPopup('<button id="Test"> "Click here for your next location" </button>');	
-            if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+            //if (watchID == null)
+             watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
         //set the initial map center to Zurich
         var map = L.map('map').setView([47.3769, 8.5417], 14);
@@ -239,7 +234,7 @@ var app = {
             //alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
         }
         //watchPosition will run constantly to get the position if the device retrieves a new location 
-        var watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });   
+        //var watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });   
             //Add the "Back" button in the map view
         var backControl =  L.Control.extend({
             options: {
