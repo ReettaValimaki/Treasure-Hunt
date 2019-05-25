@@ -97,13 +97,13 @@ var app = {
 			$("#trailList").hide();	
             $("#last-view").hide();
             map._onResize();
-			trailmarkers= Forest;
+			trailmarkers = Forest;
 			w = 0
 			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
 			.bindPopup(markercontent[0])
 				
-            //if (watchID == null)
+            if (watchID == null)
              watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
 		// Method 1 to add marker on Click
@@ -147,6 +147,7 @@ var app = {
             $("#last-view").hide();
             map._onResize();
 			trailmarkers= Tourist;
+			w = 0;
 			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
 			.bindPopup('<button id="Test"> "Click here for your next location" </button>');	
@@ -193,8 +194,8 @@ var app = {
         // onSuccess Callback
         // This method accepts a Position object, which contains the current GPS coordinates
         function onSuccess (position) {
-            //get the current location
             var lat = position.coords.latitude;
+            //get the current location
             var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
             var curlatlng = L.latLng(lat, lon);
@@ -206,9 +207,14 @@ var app = {
                 iconAnchor: [45, 65],
                 popupAnchor: [-40,-70],
             });
-            L.marker([lat, lon], {icon: myIcon}).addTo(map)
-				.bindPopup(trailmarkers[0]);
-            
+            L.marker([lat, lon], {icon: myIcon}).addTo(map);
+			
+			var markercontent2 = $('<button class= "Test3" >"Click here for your next Location" </button>');
+			markercontent.on('click', function(){
+			w++	
+			L.marker([47.377978, 8.527826]).addTo(map)}
+			);
+            function addMarkers(trailmarkers){
 			//function for popup popping up with buttons
 			for (var i = 0; i<trailmarkers.length; i++) {
                 //current marker
@@ -221,21 +227,24 @@ var app = {
 			var nextMarkerLocation = new L.LatLng(nlat, nlon);
 			var nextmarker = new L.Marker(nextMarkerLocation);
 			var distance = curlatlng.distanceTo(markerLocation);
-            if (distance < 10000000) {
+			var markercontent2 = $('<button class= "Test3" >"Click here for your next Location" </button>' + w);
+			markercontent2.on('click', function(){
+			w++;
+			addMarkers(trailmarkers);	
+			L.marker([47.377978, 8.527826]).addTo(map)}
+			);
+            if (distance < 10000000 && w == i ) {
                 nextmarker.addTo(map)
-					.bindPopup('<button id="fff"> "Click here for your next location" </button>' + w);}
+					.bindPopup(markercontent2[0]);}
             //document.getElementById("fff").addEventListener("click", buttonShow);
 			//function buttonShow () {
 			//buttonshow = 1;		
-			}
-			document.getElementById("fff").addEventListener("click", buttonShow);
-			function buttonShow () {
-			L.marker([47.376845, 8.529092]).addTo(map);	
-			//function testShow(){nextmarker.addTo(map)};
-
+			}}
+			addMarkers(trailmarkers);
+				
            
           
-            }    
+                
             //set the map center and the marker to the current location, add a circle to represent the location accuracy
             map.panTo (curlatlng);            
             marker.setLatLng (curlatlng);
@@ -248,7 +257,7 @@ var app = {
             //alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
         }
         //watchPosition will run constantly to get the position if the device retrieves a new location 
-        //var watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });   
+        var watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });   
             //Add the "Back" button in the map view
         var backControl =  L.Control.extend({
             options: {
