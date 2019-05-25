@@ -214,7 +214,6 @@ var app = {
 			var distance = curlatlng.distanceTo(markerLocation);
             if (distance < 10000000) {
                 nextmarker.addTo(map)
-
 					.bindPopup('<button id="fff"> "Click here for your next location" </button>' + buttonshow);}
             //document.getElementById("fff").addEventListener("click", buttonShow);
 			//function buttonShow () {
@@ -224,14 +223,6 @@ var app = {
 			function buttonShow () {
 			buttonshow = 1;	
 			//function testShow(){nextmarker.addTo(map)};
-				//.bindPopup('<button id="Test"> "Click here for your next location" </button>' + buttonshow);}
-
-            //document.getElementById("Test").addEventListener("click", buttonShow);
-			//function testShow(){nextmarker.addTo(map)};
-
-					.bindPopup('<button id="Test"> "Click here for your next location" </button>' + buttonshow);}
-            document.getElementById("Test").addEventListener("click", buttonShow);
-			function testShow(){nextmarker.addTo(map)};
 
            
           
