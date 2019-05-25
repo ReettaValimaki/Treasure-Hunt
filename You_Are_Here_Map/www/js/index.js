@@ -43,7 +43,7 @@ var app = {
         $("#map").hide();
 
         //add onclick event to button to show the map
-		Forest_trail = [
+		Forest = [
         [47.359932, 8.594484, "What is 1+1", "2"],
         [47.366705, 8.589935, "What is 1+2", "3"],
         [47.369728, 8.588691, "What is 1+3", "4"],
@@ -79,7 +79,7 @@ var app = {
         }
 
         //when popup submit is clicked	
-        var w = 0;
+        var w;
         submitFunc =function submitFunc() {
         w++;
         }
@@ -88,22 +88,36 @@ var app = {
 		//buttonshow = 1;		
 		//}
 		//document.getElementById("Test").addEventListener("click",showMarker);	
+		//Each button has a function to add the corresponding markers to the map
         document.getElementById("b1").addEventListener("click", ShowMapView);
 		document.getElementById("Forest_trail").addEventListener("click", ForestTrail); 
-		function ForestTrail() {
+            function ForestTrail() {
             $("#start-view").hide();
-            $("#map").show();
+            $("#map").show(); 
 			$("#trailList").hide();	
             $("#last-view").hide();
             map._onResize();
-			trailmarkers = Forest_trail;
-			startmarker = L.marker(trailmarkers[0]);
+			trailmarkers = Forest;
+			w = 0
+			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
-			.bindPopup('<button id="Test"> "Click here for your next location" </button>');
-			//document.getElementById("Test").addEventListener("click", buttonShow);
+			.bindPopup(markercontent[0])
+				
             if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+             watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
+		// Method 1 to add marker on Click
+        var markercontent = $('<button class= "Test2" >"Click here for your next Location" </button>');
+			markercontent.on('click', function(){
+			L.marker([47.377978, 8.527826]).addTo(map)}
+			);
+		// Method 2 to add marker on click	
+		$('#map').on('click', '.Test2', function() {
+		w++	
+		L.marker([47.376845, 8.529092]).addTo(map)
+		.bindPopup('Hello'+w);
+		;
+		});	
 		document.getElementById("Irchel").addEventListener("click", Ircheltrail); 
 		function Ircheltrail() {
             $("#start-view").hide();
@@ -111,22 +125,18 @@ var app = {
             $("#trailList").hide();
 			$("#last-view").hide();
             map._onResize();
-			trailmarkers = [[47.396519, 8.550110],
-			[47.396577, 8.549080],
-			[47.397507, 8.548179],
-			[47.397274, 8.550239]
-				];
-			startmarker = L.marker(trailmarkers[0]);
+			trailmarkers = Irchel;
+			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
 			.bindPopup('<button id="Test"> "Click here for your next location" </button><br>'
-                + Irchel[w][2]
+                +trailmarkers[w][2]
                 +'<br><input type="text" name="answer">'
                 +'<br><button onclick="submitFunc()">Submit</button>'
                 +'<br> The correct answer is: '
-                +[w][3]
+                +trailmarkers[w][3]
                 )	
-            if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+            //if (watchID == null)
+            watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
 
 		document.getElementById("Tourist").addEventListener("click", ShowMapView); 	
@@ -137,11 +147,11 @@ var app = {
             $("#last-view").hide();
             map._onResize();
 			trailmarkers= Tourist;
-			var startmarker = L.marker(trailmarkers[0]);
+			w = 0;
+			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
 			.bindPopup('<button id="Test"> "Click here for your next location" </button>');	
-            if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+            watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
 		document.getElementById("Pub_crawl").addEventListener("click", PubView); 	
 		function PubView() {
@@ -151,11 +161,11 @@ var app = {
             $("#last-view").hide();
             map._onResize();
 			trailmarkers= Pub_crawl;
-			var startmarker = L.marker(trailmarkers[0]);
+			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
 			.bindPopup('<button id="Test"> "Click here for your next location" </button>');	
-            if (watchID == null)
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+            //if (watchID == null)
+             watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
         //set the initial map center to Zurich
         var map = L.map('map').setView([47.3769, 8.5417], 14);
@@ -184,8 +194,8 @@ var app = {
         // onSuccess Callback
         // This method accepts a Position object, which contains the current GPS coordinates
         function onSuccess (position) {
-            //get the current location
             var lat = position.coords.latitude;
+            //get the current location
             var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
             var curlatlng = L.latLng(lat, lon);
@@ -197,9 +207,14 @@ var app = {
                 iconAnchor: [45, 65],
                 popupAnchor: [-40,-70],
             });
-            L.marker([lat, lon], {icon: myIcon}).addTo(map)
-				.bindPopup(trailmarkers[0]);
-            
+            L.marker([lat, lon], {icon: myIcon}).addTo(map);
+			
+			var markercontent2 = $('<button class= "Test3" >"Click here for your next Location" </button>');
+			markercontent.on('click', function(){
+			w++	
+			L.marker([47.377978, 8.527826]).addTo(map)}
+			);
+            function addMarkers(trailmarkers){
 			//function for popup popping up with buttons
 			for (var i = 0; i<trailmarkers.length; i++) {
                 //current marker
@@ -212,21 +227,24 @@ var app = {
 			var nextMarkerLocation = new L.LatLng(nlat, nlon);
 			var nextmarker = new L.Marker(nextMarkerLocation);
 			var distance = curlatlng.distanceTo(markerLocation);
-            if (distance < 10000000) {
+			var markercontent2 = $('<button class= "Test3" >"Click here for your next Location" </button>' + w);
+			markercontent2.on('click', function(){
+			w++;
+			addMarkers(trailmarkers);	
+			L.marker([47.377978, 8.527826]).addTo(map)}
+			);
+            if (distance < 10000000 && w == i ) {
                 nextmarker.addTo(map)
-					.bindPopup('<button id="fff"> "Click here for your next location" </button>' + buttonshow);}
+					.bindPopup(markercontent2[0]);}
             //document.getElementById("fff").addEventListener("click", buttonShow);
 			//function buttonShow () {
 			//buttonshow = 1;		
-			}
-			document.getElementById("fff").addEventListener("click", buttonShow);
-			function buttonShow () {
-			buttonshow = 1;	
-			//function testShow(){nextmarker.addTo(map)};
-
+			}}
+			addMarkers(trailmarkers);
+				
            
           
-            }    
+                
             //set the map center and the marker to the current location, add a circle to represent the location accuracy
             map.panTo (curlatlng);            
             marker.setLatLng (curlatlng);
