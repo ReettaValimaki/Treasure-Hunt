@@ -71,6 +71,9 @@ var app = {
         [47.377978, 8.527826]
         ];
 		var trailmarkers;
+
+        //makes a list of the list variables
+        var markerlist = [Forest, Irchel, Tourist, Pub_crawl]
 		
 		var buttonshow = 0;
 		
@@ -277,7 +280,6 @@ var app = {
                   $("#start-view").show();
                   $("#map").enableHighAccuracyde();     
                   $("#trailList").hide();   
-                  $("#last-view").hide();             
                   //stop watching for changes to the device's location
                   navigator.geolocation.clearWatch(watchID);
                   watchID = null;
