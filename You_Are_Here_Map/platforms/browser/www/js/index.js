@@ -71,6 +71,9 @@ var app = {
         [47.377978, 8.527826]
         ];
 		var trailmarkers;
+
+        //makes a list of the list variables
+        var markerlist = [Forest, Irchel, Tourist, Pub_crawl]
 		
 		var buttonshow = 0;
 		
@@ -129,11 +132,11 @@ var app = {
 			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
 			.bindPopup('<button id="Test"> "Click here for your next location" </button><br>'
-                +trailmarkers[w][2]
+                +trailmarkers[0][2]
                 +'<br><input type="text" name="answer">'
                 +'<br><button onclick="submitFunc()">Submit</button>'
                 +'<br> The correct answer is: '
-                +trailmarkers[w][3]
+                +trailmarkers[0][3]
                 )	
             //if (watchID == null)
             watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
@@ -214,6 +217,7 @@ var app = {
 			w++	
 			L.marker([47.377978, 8.527826]).addTo(map)}
 			);
+
             function addMarkers(trailmarkers){
 			//function for popup popping up with buttons
 			for (var i = 0; i<trailmarkers.length; i++) {
@@ -228,6 +232,7 @@ var app = {
 			var nextmarker = new L.Marker(nextMarkerLocation);
 			var distance = curlatlng.distanceTo(markerLocation);
 			var markercontent2 = $('<button class= "Test3" >"Click here for your next Location" </button>' + w);
+            //shows the second popup
 			markercontent2.on('click', function(){
 			w++;
 			addMarkers(trailmarkers);	
@@ -254,7 +259,7 @@ var app = {
 
         // onError Callback receives a PositionError object
         function onError(error) {
-            //alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+            alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
         }
         //watchPosition will run constantly to get the position if the device retrieves a new location 
         var watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });   
@@ -273,9 +278,8 @@ var app = {
                 
                 container.onclick = function(){
                   $("#start-view").show();
-                  $("#map").hide();     
+                  $("#map").enableHighAccuracyde();     
                   $("#trailList").hide();   
-                  $("#last-view").hide();             
                   //stop watching for changes to the device's location
                   navigator.geolocation.clearWatch(watchID);
                   watchID = null;
