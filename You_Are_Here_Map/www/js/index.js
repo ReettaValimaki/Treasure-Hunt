@@ -16,6 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+
+                 
 var app = {
     // Application Constructor
     initialize: function() {
@@ -38,12 +41,18 @@ var app = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var watchID = null;
+
        //sets the starting view to show when open the app
         $("#start-view").show();
         $("#map").hide();
+ 
 
-        //add onclick event to button to show the map
-		Forest = [
+
+        var x = "";
+        var trailmarkers = "";
+
+
+        Forest_trail = [
         [47.359932, 8.594484, "What is 1+1", "2"],
         [47.366705, 8.589935, "What is 1+2", "3"],
         [47.369728, 8.588691, "What is 1+3", "4"],
@@ -70,11 +79,36 @@ var app = {
         [47.376845, 8.529092],
         [47.377978, 8.527826]
         ];
-		var trailmarkers;
+        
+        var trail_dict = {
+            "Forest_trail": Forest_trail,
+            "Irchel": Irchel,
+            "Tourist": Tourist,
+            "Pub_crawl": Pub_crawl,
+        };
 
-        //makes a list of the list variables
-        var markerlist = [Forest, Irchel, Tourist, Pub_crawl]
-		
+        //add onclick event to button to show the map
+        function reply_click(clicked_id){
+            alert(clicked_id);
+            x=clicked_id;
+            console.log(w + " is w" + x + " is x");
+            $("#start-view").hide();
+            $("#trailList").hide();
+            $("#map").show(); 
+
+            map._onResize();
+
+            trailmarkers = trail_dict[x];
+            var w = 0;
+            
+            var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
+            startmarker.addTo(map);
+            //.bindPopup(markercontent[0])
+                
+            if (watchID == null)
+             watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+        }
+      	
 		var buttonshow = 0;
 		
 		function buttonShow () {
@@ -93,24 +127,11 @@ var app = {
 		//document.getElementById("Test").addEventListener("click",showMarker);	
 		//Each button has a function to add the corresponding markers to the map
         document.getElementById("b1").addEventListener("click", ShowMapView);
-		document.getElementById("Forest_trail").addEventListener("click", ForestTrail); 
-            function ForestTrail() {
-            $("#start-view").hide();
-            $("#map").show(); 
-			$("#trailList").hide();	
-            $("#last-view").hide();
-            map._onResize();
-			trailmarkers = Forest;
-			w = 0
-			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
-			startmarker.addTo(map)
-			.bindPopup(markercontent[0])
-				
-            if (watchID == null)
-             watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
-        }
+
 		// Method 1 to add marker on Click
         var markercontent = $('<button class= "Test2" >"Click here for your next Location" </button>');
+
+
 			markercontent.on('click', function(){
 			L.marker([47.377978, 8.527826]).addTo(map)}
 			);
@@ -119,25 +140,26 @@ var app = {
 		w++	
 		L.marker([47.376845, 8.529092]).addTo(map)
 		.bindPopup('Hello'+w);
-		;
 		});	
+
+
 		document.getElementById("Irchel").addEventListener("click", Ircheltrail); 
 		function Ircheltrail() {
             $("#start-view").hide();
-            $("#map").show();   
-            $("#trailList").hide();
-			$("#last-view").hide();
+            $("#map").show();  
+            $("#trailList").hide(); 
             map._onResize();
 			trailmarkers = Irchel;
 			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
+
 			startmarker.addTo(map)
+            
 			.bindPopup('<button id="Test"> "Click here for your next location" </button><br>'
                 +trailmarkers[0][2]
-                +'<br><input type="text" name="answer">'
-                +'<br><button onclick="submitFunc()">Submit</button>'
-                +'<br> The correct answer is: '
                 +trailmarkers[0][3]
-                )	
+                +document.getElementById("popup_content").innerHTML
+                )
+                
             //if (watchID == null)
             watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
@@ -146,8 +168,6 @@ var app = {
         function ShowMapView() {
             $("#start-view").hide();
             $("#map").show(); 
-			$("#trailList").hide();	
-            $("#last-view").hide();
             map._onResize();
 			trailmarkers= Tourist;
 			w = 0;
@@ -160,8 +180,6 @@ var app = {
 		function PubView() {
             $("#start-view").hide();
             $("#map").show(); 
-			$("#trailList").hide();	
-            $("#last-view").hide();
             map._onResize();
 			trailmarkers= Pub_crawl;
 			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
@@ -213,9 +231,14 @@ var app = {
             L.marker([lat, lon], {icon: myIcon}).addTo(map);
 			
 			var markercontent2 = $('<button class= "Test3" >"Click here for your next Location" </button>');
-			markercontent.on('click', function(){
+			markercontent2.on('click', function(){
 			w++	
-			L.marker([47.377978, 8.527826]).addTo(map)}
+			L.marker([47.377978, 8.527826]).addTo(map)
+
+
+                    
+
+        }
 			);
 
             function addMarkers(trailmarkers){
@@ -241,13 +264,13 @@ var app = {
             if (distance < 10000000 && w == i ) {
                 nextmarker.addTo(map)
 					.bindPopup(markercontent2[0]);}
+
             //document.getElementById("fff").addEventListener("click", buttonShow);
 			//function buttonShow () {
 			//buttonshow = 1;		
 			}}
 			addMarkers(trailmarkers);
 				
-           
           
                 
             //set the map center and the marker to the current location, add a circle to represent the location accuracy
@@ -278,8 +301,7 @@ var app = {
                 
                 container.onclick = function(){
                   $("#start-view").show();
-                  $("#map").enableHighAccuracyde();     
-                  $("#trailList").hide();   
+                  $("#map").hide();     
                   //stop watching for changes to the device's location
                   navigator.geolocation.clearWatch(watchID);
                   watchID = null;
