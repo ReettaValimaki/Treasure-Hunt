@@ -46,8 +46,8 @@ var app = {
         $("#start-view").show();
         $("#map").hide();
  
-
-
+		
+		var startmarker = ""
         var x = "";
         var trailmarkers = "";
 
@@ -74,7 +74,7 @@ var app = {
         ];
 
         Pub_crawl = [
-        [47.374117, 8.544129],
+        [47.374117, 8.544129, "How many Beer sorts are there on the menu", "4"],
         [47.376115, 8.538136],
         [47.376845, 8.529092],
         [47.377978, 8.527826]
@@ -129,7 +129,7 @@ var app = {
         document.getElementById("b1").addEventListener("click", ShowMapView);
 
 		// Method 1 to add marker on Click
-        var markercontent = $('<button class= "Test2" >"Click here for your next Location" </button>');
+        var markercontent = $('<button class= "Test2" >"Click here for your next Location" </button>' + w);
 
 
 			markercontent.on('click', function(){
@@ -141,15 +141,29 @@ var app = {
 		L.marker([47.376845, 8.529092]).addTo(map)
 		.bindPopup('Hello'+w);
 		});	
+		
+		subfu = function (){
+		L.marker([47.376845, 8.529092]).addTo(map)
+		alert("Hello")
+		w ++}
+		
+		infu = function infu(){
+			val = document.getElementById('xd').value
+			if (val == trailmarkers [w][3]){
+			alert("Correct Answer!!")}
+			else {
+			alert ("wrong you are dumb")}	
+		}
 
 
 		document.getElementById("Irchel").addEventListener("click", Ircheltrail); 
 		function Ircheltrail() {
+			x = this.id
             $("#start-view").hide();
             $("#map").show();  
             $("#trailList").hide(); 
             map._onResize();
-			trailmarkers = Irchel;
+			trailmarkers = trail_dict[x];
 			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 
 			startmarker.addTo(map)
@@ -166,25 +180,31 @@ var app = {
 
 		document.getElementById("Tourist").addEventListener("click", ShowMapView); 	
         function ShowMapView() {
+			x = this.id
             $("#start-view").hide();
+			$("#trailList").hide(); 
             $("#map").show(); 
             map._onResize();
-			trailmarkers= Tourist;
+			trailmarkers= trail_dict[x];
 			w = 0;
 			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
 			startmarker.addTo(map)
-			.bindPopup('<button id="Test"> "Click here for your next location" </button>');	
+			.bindPopup('<button onclick = "subfu()"> "Click here for your next location" </button>'
+			+ trailmarkers [0][2]);
             watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
 		document.getElementById("Pub_crawl").addEventListener("click", PubView); 	
 		function PubView() {
             $("#start-view").hide();
-            $("#map").show(); 
+            $("#map").show();
+			$("#trailList").hide();			
             map._onResize();
+			w = 0
 			trailmarkers= Pub_crawl;
-			var startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
-			startmarker.addTo(map)
-			.bindPopup('<button id="Test"> "Click here for your next location" </button>');	
+			startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
+			//startmarker.addTo(map)
+			//.bindPopup('<button onclick = "subfu()"> "Click here for your next location" </button>'
+			//+ trailmarkers [0][2]);	
             //if (watchID == null)
              watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
@@ -211,6 +231,15 @@ var app = {
 		//startmarker.addTo(map)
 			//.bindPopup('<button id="Test"> "Click here for your next location" </button>');
         
+		//function nextMarker() {
+		
+		//var mlon = trailmarkers[w][1]
+		//var mlat = trailmarkers w [0]
+		
+		
+		
+		
+		
         
         // onSuccess Callback
         // This method accepts a Position object, which contains the current GPS coordinates
@@ -228,23 +257,27 @@ var app = {
                 iconAnchor: [45, 65],
                 popupAnchor: [-40,-70],
             });
-            L.marker([lat, lon], {icon: myIcon}).addTo(map);
+			function infu(){
+			val = map.getElementById('xd').value
+			alert(val)
+			}	
 			
-			var markercontent2 = $('<button class= "Test3" >"Click here for your next Location" </button>');
-			markercontent2.on('click', function(){
-			w++	
-			L.marker([47.377978, 8.527826]).addTo(map)
-
-
-                    
-
-        }
-			);
+            L.marker([lat, lon], {icon: myIcon}).addTo(map);
+			L.marker([47.377978, 8.527826]).addTo(map);
+			startmarker.addTo(map)
+			.bindPopup('<button onclick = "subfu()"> "Click here for your next location" </button>'
+			+ '<br>'
+			+ trailmarkers [0][2]
+			+ '<br>'
+			+'<input type="text" name="answer" id= "xd">'
+			+
+   			'<input onclick ="infu()" type="submit" value="Submit">');	
 
             function addMarkers(trailmarkers){
 			//function for popup popping up with buttons
-			for (var i = 0; i<trailmarkers.length; i++) {
+			for (var i = 0; i<trailmarkers.length - 1; i++) {
                 //current marker
+			u = i + 1	
 			var tlon = trailmarkers[i][1];
 			var tlat = trailmarkers[i][0];
                 //next marker
@@ -254,14 +287,15 @@ var app = {
 			var nextMarkerLocation = new L.LatLng(nlat, nlon);
 			var nextmarker = new L.Marker(nextMarkerLocation);
 			var distance = curlatlng.distanceTo(markerLocation);
-			var markercontent2 = $('<button class= "Test3" >"Click here for your next Location" </button>' + w);
+			var markercontent2 = $('<button class= "Test3" >"Click here for your next Location" </button>' );
             //shows the second popup
 			markercontent2.on('click', function(){
 			w++;
+			
 			addMarkers(trailmarkers);	
-			L.marker([47.377978, 8.527826]).addTo(map)}
+			}
 			);
-            if (distance < 10000000 && w == i ) {
+            if (distance < 10000000 && w == i) {
                 nextmarker.addTo(map)
 					.bindPopup(markercontent2[0]);}
 
