@@ -184,7 +184,7 @@ var app = {
 			
 			//ads next marker without knowing right answer
 			subfu = function (){
-			alert("You lost, the correct answer would have been" + trailmarkers[w][3])
+			alert("You lost, the correct answer would have been " + trailmarkers[w][3])
 			w ++;
 			addMarkers(trailmarkers)}
 		
@@ -201,7 +201,7 @@ var app = {
 			
             L.marker([lat, lon], {icon: myIcon}).addTo(map);//adding marker for personal location
 			startmarker.addTo(map)//adding first marker
-			.bindPopup('<button onclick = "subfu()"> "Click here for your next location" </button>'
+			.bindPopup('<button onclick = "subfu()"> "I dont know the answer, please show me the next location anyways" </button>'
 			+ '<br>'
 			+ trailmarkers [0][2]
 			+ '<br>'
@@ -224,7 +224,7 @@ var app = {
 			var nextmarker = new L.Marker(nextMarkerLocation);
 			var distance = curlatlng.distanceTo(markerLocation);
 			
-            if (distance < 50 && w == i+1) {//if w high enough (through correct answer) and close enough to current marker, add next marker.
+            if (distance < 100000 && w == i+1) {//if w high enough (through correct answer) and close enough to current marker, add next marker.
                 nextmarker.addTo(map)
 					.bindPopup('<button onclick = "subfu()"> "I dont know the answer, please show me the next location anyways" </button>'
 			+ '<br>'
@@ -233,7 +233,7 @@ var app = {
 			+'<input type="text" name="answer" id= "inp">'
 			+
    			'<input onclick ="infu()" type="submit" value="Submit">');}
-			if (distance > 50 && w == i+1){
+			if (distance > 100000 && w == i+1){
 			w --	
 			alert("Please go within 50 meter of your current marker and submit your right answer again to show the next marker")}
 
