@@ -37,7 +37,7 @@
 </head>
 <body style="margin: 20px;">
 
-	<!-- the content inside the popups: -->
+<!-- the content inside the popups:
    <div id="popup_content">
    		<p style="font-size: 24px;">
    			Please answer the following question:
@@ -49,10 +49,9 @@
    			
    		</p>   	
    </div>
-
+ -->
    <div data-role="page" id="start-view" text-align: center>
         <h2>Welcome</h2>
-        <button id="b1" type="button" class="ui-button ui-widget ui-corner-all">Bring me to the Map</button>
         <p style="font-size: 50px; text-align: center;">Please choose: </p>
         <button type="button"><a href="#trailList"> Choose a trail </a></button>
 		<button type="button"><a href="#giveName"> Make a trail </a></button>
@@ -60,18 +59,16 @@
     </div>  
 
 
-    <div data-role="page" id="map" style="display: none">Here is the map
-    </div> 
+
 
     <div data-role="page" id="giveName">
 			<form>
-			  <h3>Give a name for your trail: </h3>
+			  <h3 style="color: black;">Give a name for your trail: </h3>
 			  <br>
 			  <input type="text" name="trailname">
 			  <br><br>
 			  <button id="jeeMap"> <a class="buttShowMap" href="#trailMaking">Submit</a></button>
 			</form> 
-			<button id = "showMap" type="button" class="ui-button ui-widget ui-corner-all"> see the map </button>
 		<footer>
 	    	<button><a href="#start-view"> Back </a></button>
 	    </footer>
@@ -108,11 +105,14 @@
 
 	<div data-role="page" id="trailMaking">
 		<h3>Press the location where you want the first location for your trail </h3>
-		<footer>
-	    	<button><a href="#start-view"> Back </a></button>
-	    </footer>
 	</div>
 
+    <div data-role="page" id="map">Here is the map
+    		<div class ="backMap">
+    			<button><a href="#start-view"> Back </a></button>
+    		</div>
+	    	
+    </div> 
 <style type="text/css">
 	h2 {
 		text-align: center;
@@ -148,6 +148,7 @@
 		text-decoration: none;
 		color: black;
 	}
+
 
 </style>
    
