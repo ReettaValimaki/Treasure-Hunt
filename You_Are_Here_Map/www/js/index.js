@@ -91,7 +91,7 @@ var app = {
 		
 		
 		//Each button has a function to add the corresponding markers to the map
-        document.getElementById("b1").addEventListener("click", TrailView);
+        //document.getElementById("b1").addEventListener("click", TrailView);
 
 		//ads next marker without knowing right answer
 		// subfu = function (){
@@ -267,22 +267,20 @@ var app = {
             onAdd: function (map) {
                 var container = L.DomUtil.create('button', 'ui-button ui-widget ui-corner-all');
                 container.style.backgroundColor = 'white';     
-                container.style.width = '60px';
-                container.style.height = '30px';
-                container.textContent = "Back";
+                container.style.width = '100px';
+                container.style.height = '60px';
+                container.textContent = 'Back';
                 
                 container.onclick = function(){
-                  $("#start-view").show();
-                  $("#map").hide();     
+                    location.reload();     
                   //stop watching for changes to the device's location
                   navigator.geolocation.clearWatch(watchID);
                   watchID = null;
                 };
-
                 return container;
             }
         });
-        map.addControl(new backControl());
+        map.addControl(new backControl());        
     }
 
 };
