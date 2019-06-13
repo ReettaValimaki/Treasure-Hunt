@@ -51,7 +51,7 @@ var app = {
         var x = "";
         var trailmarkers = "";
 
-
+		//each trail receives a list with the coordinates of the markers, the questions and the right answer to the question.	
         Forest_trail = [
         [47.359932, 8.594484, "What is 1+1", "2"],
         [47.366705, 8.589935, "What is 1+2", "3"],
@@ -88,7 +88,7 @@ var app = {
         ];
 		
         
-        var trail_dict = {
+        var trail_dict = {  //dictionary with all the ids of the trail buttons and the corresponding trails
             "Forest_trail": Forest_trail,
             "Irchel": Irchel,
             "Tourist": Tourist,
@@ -97,47 +97,22 @@ var app = {
         };
 
 
-		
-		
-		//Each button has a function to add the corresponding markers to the map
-        //document.getElementById("b1").addEventListener("click", TrailView);
-
-		//ads next marker without knowing right answer
-		// subfu = function (){
-		// L.marker([47.376845, 8.529092]).addTo(map)
-		// alert("Hello")
-		// w ++;
-		// addMarkers(trailmarkers)}
-		
-		// infu = function infu(){
-			// val = document.getElementById('inp').value
-			// if (val == trailmarkers [w][3]){
-			// alert("Correct Answer!!");
-			// w++;
-			// addMarkers(trailmarkers);}
-			// else {
-			// alert ("Wrong you are dumb, the correct Answer would be" + trailmarkers[w][3])}	
-		// }
-
-
-		z = document.getElementsByClassName("trail_button")
+		z = document.getElementsByClassName("trail_button") //fetches all the trail buttons
 		for (var i = 0; i < z.length; i++) {
-		z[i].addEventListener('click', TrailView, false);
+		z[i].addEventListener('click', TrailView, false); //each trail button receives the trail view function on click
 		}	
 
 		
-		function TrailView() {
+		function TrailView() {// opens the map with corresponding markers, according to the trail clicked
             $("#start-view").hide();
             $("#map").show();
 			$("#trailList").hide();			
             map._onResize();
 			x = this.id
-			w = 0
-			trailmarkers = trail_dict[x];
-			startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);
-			//startmarker.addTo(map)
-			//.bindPopup('<button onclick = "subfu()"> "Click here for your next location" </button>'
-			//+ trailmarkers [0][2]);	
+			s = 0 //startmarker counter
+			w = 0 //step counter variable
+			trailmarkers = trail_dict[x]; //assigns the right trail markers
+			startmarker = L.marker([trailmarkers[0][0], trailmarkers[0][1]]);	
             if (watchID == null)
              watchID = navigator.geolocation.watchPosition(onSuccess, onError, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
         }
@@ -168,10 +143,6 @@ var app = {
         var circle = L.circle([47.3769, 8.5417], {radius: 10});
         circle.addTo(map);
 		
-		
-		
-		
-		
         
         // onSuccess Callback
         // This method accepts a Position object, which contains the current GPS coordinates
@@ -183,7 +154,7 @@ var app = {
             var curlatlng = L.latLng(lat, lon);
            
 			
-			//ads next marker without knowing right answer
+			//ads next marker without knowing right answer, emergency button
 			subfu = function (){
 			alert("You lost, the correct answer would have been " + trailmarkers[w][3])
 			w ++;
@@ -199,7 +170,7 @@ var app = {
 			else {
 			alert ("Wrong, try again")}	
 			}
-
+			//function for endmarker input
 			endfu = function endfu(){
 			val = document.getElementById('last_question').value
 			if (val == trailmarkers [w][3]){
@@ -212,7 +183,7 @@ var app = {
 			
 			
            //adding marker for personal location
-		   if (w==0){
+		   
 			startmarker.addTo(map)//adding first marker
 			.bindPopup('<button onclick = "subfu()"> "I dont know the answer, please show me the next location anyways" </button>'
 			+ '<br>'
@@ -221,7 +192,7 @@ var app = {
 			+'<input type="text" name="answer" id= "inp">'
 			+
    			'<input onclick ="infu()" type="submit" value="Submit">');	
-		   }	
+		   	
             function addMarkers(trailmarkers){
 			//function for popup popping up with buttons
 			for (var i = 0; i<trailmarkers.length - 1; i++) { //loop through all the markers
@@ -234,9 +205,9 @@ var app = {
 			var nlat = trailmarkers [i+1][0];
 			var markerLocation = new L.LatLng(tlat, tlon);
 			var nextMarkerLocation = new L.LatLng(nlat, nlon);
-			var endmarker = new L.Marker(nextMarkerLocation,  {icon: chest})
+			var endmarker = new L.Marker(nextMarkerLocation,  {icon: chest}) //last marker
 			.bindPopup(
-			'One last Question to unluck the Chest'
+			'One last question to unlock the Chest'
 			+ '<br>'
 			+ trailmarkers [i+1][2]
 			+ '<br>'
@@ -245,7 +216,7 @@ var app = {
    			'<input onclick ="endfu()" type="submit" value="Submit">')
 			
 			var distance = curlatlng.distanceTo(markerLocation);
-			var nextmarker = new L.Marker(nextMarkerLocation)
+			var nextmarker = new L.Marker(nextMarkerLocation) //next marker
 			.bindPopup('<button onclick = "subfu()"> "I dont know the answer, please show me the next location anyways" </button>'
 			+ '<br>'
 			+ trailmarkers [i+1][2]
@@ -254,7 +225,7 @@ var app = {
 			+
    			'<input onclick ="infu()" type="submit" value="Submit">')
             if (distance < 100000 && w == i+1) {//if w high enough (through correct answer) and close enough to current marker, add next marker.
-				if (w == trailmarkers.length -1){
+				if (w == trailmarkers.length -1){ //replace next marker with endmarker if it is the last step
 				nextmarker = endmarker}	
                 nextmarker.addTo(map)
 				;}
