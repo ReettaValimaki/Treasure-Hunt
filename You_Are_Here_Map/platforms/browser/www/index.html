@@ -22,6 +22,16 @@
 <html>
 
 <head>
+<style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
@@ -35,7 +45,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 </head>
-<body style="margin: 20px;">
+<body style="margin: 1px;">
 
 <!-- the content inside the popups:
    <div id="popup_content">
@@ -73,28 +83,34 @@
 	    	<button><a href="#start-view"> Back </a></button>
 	    </footer>
 	</div> 
-	<div data-role="page" id="trailList">
+	<div data-role="page" id="trailList" style="text-align:center">
 		<h2>Pick a trail</h2>
 			<ul>
-				<div class="trail_list">
+				<div class="trail_list" style="text-align:center">
 		        	<button class="trail_button"  id="Forest_trail"> <img src="img/trail.png", width="100%"> </button>
-		        	<h3>Test trail</h3>
+		        	<h3>Forest trail</h3>
 	        	</div>
 	        	<br>
-	        	<div class="trail_list">
-		        	<button class = "trail_button" id="Irchel"> <img src="img/irchel.png"> </button>
-		        	<h3>Trail around Irchel</h3>
+	        	<div class="trail_list" style="text-align:center">
+		        	<button class = "trail_button" style="text-align:center" id="Irchel"> <img src="img/irchel.png"> </button>
+		        	<h3>Irchel trail</h3>
 	        	</div>
 	        	<br>
 	        	<div class="trail_list">
 		        	<button class = "trail_button" id="Tourist" > <img src="img/tourist.png"> </button>
-		        	<h3>Tourist trail in Zurich</h3>
+		        	<h3>Tourist trail</h3>
 	        	</div>
 	        	<br>
-	        	<div class="trail_list">
-		        	<button class = "trail_button" id="Pub_crawl">  <img src="img/pub.png"> </a>
-		        	<h3>Pub crawl in Zurich</h3>
+	        	<div class="trail_list" style="text-align:center">
+		        	<button class = "trail_button" id="Pub_crawl">  <img src="img/pub.png"> </button>
+		        	<h3>Pub crawl</h3>
 	        	</div>
+				<br>
+				<div class="trail_list" style="text-align:center">
+		        	<button class = "trail_button" id="Test">  <img src="img/pub.png"> </button>
+		        	<h3>Test_Trail</h3>
+	        	</div>
+				
 	        </ul>
 	    <footer>
 	    	<button><a href="#start-view"> Back </a></button>
@@ -107,10 +123,8 @@
 		<h3>Press the location where you want the first location for your trail </h3>
 	</div>
 
-    <div data-role="page" id="map">Here is the map
-    		<div class ="backMap">
-    			<button><a href="#start-view"> Back </a></button>
-    		</div>
+    <div data-role="page" id="map">
+    		
 	    	
     </div> 
 <style type="text/css">
