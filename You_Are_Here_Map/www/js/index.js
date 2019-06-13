@@ -224,12 +224,12 @@ var app = {
 			+'<input type="text" name="answer" id= "inp">'
 			+
    			'<input onclick ="infu()" type="submit" value="Submit">')
-            if (distance < 100000 && w == i+1) {//if w high enough (through correct answer) and close enough to current marker, add next marker.
+            if (distance < 1000000000 && w == i+1) {//if w high enough (through correct answer) and close enough to current marker, add next marker.
 				if (w == trailmarkers.length -1){ //replace next marker with endmarker if it is the last step
 				nextmarker = endmarker}	
                 nextmarker.addTo(map)
 				;}
-			if (distance > 100000&& w == i+1){
+			if (distance > 1000000000&& w == i+1){
 			w --	
 			alert("Please go within 50 meter of your current marker and submit your right answer again to show the next marker")}
 			
