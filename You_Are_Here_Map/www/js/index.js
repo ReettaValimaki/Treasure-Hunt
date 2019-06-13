@@ -183,7 +183,7 @@ var app = {
 			
 			
            //adding marker for personal location
-		   
+			if (s == 0){
 			startmarker.addTo(map)//adding first marker
 			.bindPopup('<button onclick = "subfu()"> "I dont know the answer, please show me the next location anyways" </button>'
 			+ '<br>'
@@ -191,8 +191,9 @@ var app = {
 			+ '<br>'
 			+'<input type="text" name="answer" id= "inp">'
 			+
-   			'<input onclick ="infu()" type="submit" value="Submit">');	
-		   	
+   			'<input onclick ="infu()" type="submit" value="Submit">');
+			s ++;	
+		   	}
             function addMarkers(trailmarkers){
 			//function for popup popping up with buttons
 			for (var i = 0; i<trailmarkers.length - 1; i++) { //loop through all the markers
@@ -207,7 +208,7 @@ var app = {
 			var nextMarkerLocation = new L.LatLng(nlat, nlon);
 			var endmarker = new L.Marker(nextMarkerLocation,  {icon: chest}) //last marker
 			.bindPopup(
-			'One last question to unlock the Chest'
+			'One last question to unlock the Chest:'
 			+ '<br>'
 			+ trailmarkers [i+1][2]
 			+ '<br>'
