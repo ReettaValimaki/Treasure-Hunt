@@ -79,12 +79,21 @@ var app = {
         [47.376845, 8.529092,"How many Beer sorts are there on the menu", "7"],
         [47.377978, 8.527826, "How many Beer sorts are there on the menu", "7"]
         ];
+		
+		Test = [
+		[47.256399, 8.604121, "What is the number of the Bus line on the bus station", "134"],
+        [47.256271, 8.605065 ,"What is the number of the Bus line on the bus station", "134"],
+        [47.256719, 8.604593,"How many Beer sorts are there on the menu", "7"],
+        [47.257433, 8.605210, "How many Beer sorts are there on the menu", "7"]
+        ];
+		
         
         var trail_dict = {
             "Forest_trail": Forest_trail,
             "Irchel": Irchel,
             "Tourist": Tourist,
             "Pub_crawl": Pub_crawl,
+			"Test" : Test
         };
 
 
@@ -139,26 +148,25 @@ var app = {
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+		
+		var myIcon = L.icon({
+                iconUrl: 'img/person.png',
+                iconSize: [95, 95],
+                iconAnchor: [45, 65],
+                popupAnchor: [-40,-70],
+            });
+		
+		var chest = L.icon({
+                iconUrl: 'img/chest_transparent.png',
+                iconSize: [88, 71],
+                iconAnchor: [45, 65],
+                popupAnchor: [-40,-70],
+            });
                 
-        var marker = L.marker([47.3769, 8.5417], {rotationAngle: 0});
-                
+        var marker = L.marker([47.3769, 8.5417], {icon: myIcon}, {rotationAngle: 0}); //adding marker for personal location
+        marker.addTo(map)       
         var circle = L.circle([47.3769, 8.5417], {radius: 10});
         circle.addTo(map);
-		//var trailmarkers= [
-		//[47.256335, 8.604447],
-		//[47.256335, 8.605482],
-		//[47.256335, 8.605800]
-		//];
-		
-       
-		//var startmarker = L.marker(trailmarkers[0]);
-		//startmarker.addTo(map)
-			//.bindPopup('<button id="Test"> "Click here for your next location" </button>');
-        
-		//function nextMarker() {
-		
-		//var mlon = trailmarkers[w][1]
-		//var mlat = trailmarkers w [0]
 		
 		
 		
@@ -173,14 +181,7 @@ var app = {
             var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
             var curlatlng = L.latLng(lat, lon);
-			//document.getElementById("Test").addEventListener("click",showMarker);	
-            //vasiable for the icon
-            var myIcon = L.icon({
-                iconUrl: 'img/person.png',
-                iconSize: [95, 95],
-                iconAnchor: [45, 65],
-                popupAnchor: [-40,-70],
-            });
+           
 			
 			//ads next marker without knowing right answer
 			subfu = function (){
@@ -197,9 +198,21 @@ var app = {
 			addMarkers(trailmarkers);}
 			else {
 			alert ("Wrong, try again")}	
-			}	
+			}
+
+			endfu = function endfu(){
+			val = document.getElementById('last_question').value
+			if (val == trailmarkers [w][3]){
+			alert("Correct Answer! You have sucessfully unlocked the chest");
+			w++;
+			addMarkers(trailmarkers);}
+			else {
+			alert ("Unfortunately you lost, better luck on another day!")}	
+			}
 			
-            L.marker([lat, lon], {icon: myIcon}).addTo(map);//adding marker for personal location
+			
+           //adding marker for personal location
+		   if (w==0){
 			startmarker.addTo(map)//adding first marker
 			.bindPopup('<button onclick = "subfu()"> "I dont know the answer, please show me the next location anyways" </button>'
 			+ '<br>'
@@ -208,7 +221,7 @@ var app = {
 			+'<input type="text" name="answer" id= "inp">'
 			+
    			'<input onclick ="infu()" type="submit" value="Submit">');	
-
+		   }	
             function addMarkers(trailmarkers){
 			//function for popup popping up with buttons
 			for (var i = 0; i<trailmarkers.length - 1; i++) { //loop through all the markers
@@ -221,32 +234,43 @@ var app = {
 			var nlat = trailmarkers [i+1][0];
 			var markerLocation = new L.LatLng(tlat, tlon);
 			var nextMarkerLocation = new L.LatLng(nlat, nlon);
-			var nextmarker = new L.Marker(nextMarkerLocation);
-			var distance = curlatlng.distanceTo(markerLocation);
+			var endmarker = new L.Marker(nextMarkerLocation,  {icon: chest})
+			.bindPopup(
+			'One last Question to unluck the Chest'
+			+ '<br>'
+			+ trailmarkers [i+1][2]
+			+ '<br>'
+			+'<input type="text" name="answer" id= "last_question">'
+			+
+   			'<input onclick ="endfu()" type="submit" value="Submit">')
 			
-            if (distance < 100000 && w == i+1) {//if w high enough (through correct answer) and close enough to current marker, add next marker.
-                nextmarker.addTo(map)
-					.bindPopup('<button onclick = "subfu()"> "I dont know the answer, please show me the next location anyways" </button>'
+			var distance = curlatlng.distanceTo(markerLocation);
+			var nextmarker = new L.Marker(nextMarkerLocation)
+			.bindPopup('<button onclick = "subfu()"> "I dont know the answer, please show me the next location anyways" </button>'
 			+ '<br>'
 			+ trailmarkers [i+1][2]
 			+ '<br>'
 			+'<input type="text" name="answer" id= "inp">'
 			+
-   			'<input onclick ="infu()" type="submit" value="Submit">');}
-			if (distance > 100000 && w == i+1){
+   			'<input onclick ="infu()" type="submit" value="Submit">')
+            if (distance < 100000 && w == i+1) {//if w high enough (through correct answer) and close enough to current marker, add next marker.
+				if (w == trailmarkers.length -1){
+				nextmarker = endmarker}	
+                nextmarker.addTo(map)
+				;}
+			if (distance > 100000&& w == i+1){
 			w --	
 			alert("Please go within 50 meter of your current marker and submit your right answer again to show the next marker")}
-
-            //document.getElementById("fff").addEventListener("click", buttonShow);
-			//function buttonShow () {
-			//buttonshow = 1;		
+			
+			
+            	
 			}}
-			//addMarkers(trailmarkers);
+			
 				
           
                 
             //set the map center and the marker to the current location, add a circle to represent the location accuracy
-            map.panTo (curlatlng);            
+            //map.panTo (curlatlng);            
             marker.setLatLng (curlatlng);
             //marker.getPopup().setContent('You are here!').openPopup();
             circle.setRadius (accuracy).setLatLng (curlatlng);   
